@@ -1,55 +1,66 @@
 document.addEventListener('DOMContentLoaded', () => {
-  const produkContainer = document.getElementById('produk-container');
-  const searchInput = document.getElementById('search');
+  const produkPopulerContainer = document.getElementById('produk-populer');
+  const produkSemuaContainer = document.getElementById('produk-semua');
 
-  // Nomor WhatsApp penjual (ganti dengan nomor asli, tanpa +)
-  const nomorWA = "085810475301";
+  const nomorWA = "6281234567890"; // Ganti dengan nomor WA penjual
 
-  let produkList = [];
+  function buatCardProduk(produk) {
+    const hargaFormat = Number(produk.price).toLocaleString('id-ID');
+    const pesanWA = `Halo kak, saya mau beli produk *${produk.name}* dengan harga Rp ${hargaFormat}.`;
+    const linkWA = `https://wa.me/${nomorWA}?text=${encodeURIComponent(pesanWA)}`;
 
-  function renderProduk(filter = "") {
-    produkContainer.innerHTML = "";
-    const filtered = produkList.filter(p =>
-      p.name.toLowerCase().includes(filter.toLowerCase())
-    );
+    const card = document.createElement('div');
+    card.classList.add('produk-card');
 
-    if (filtered.length === 0) {
-      produkContainer.innerHTML = "<p>Tidak ada produk yang cocok.</p>";
-      return;
-    }
+    // Jika produk.image_url cuma nama file, tambahkan base URL gambar
+    // Contoh base URL: https://fatimaazhr.psl17.my.id/uploads/produk/
+    // Kalau API sudah kasih full URL, tinggal pakai langsung
+    const baseUrlGambar = "https://fatimaazhr.psl17.my.id/uploads/produk/";
+    const srcGambar = produk.image_url.startsWith('http') ? produk.image_url : baseUrlGambar + produk.image_url;
 
-    filtered.forEach(produk => {
-      const hargaFormat = Number(produk.price).toLocaleString('id-ID');
-      const pesanWA = `Halo kak, saya mau beli produk *${produk.name}* dengan harga Rp ${hargaFormat}.`;
-      const linkWA = `https://wa.me/${nomorWA}?text=${encodeURIComponent(pesanWA)}`;
+    card.innerHTML = `
+      <img src="${srcGambar}" alt="${produk.name}" />
+      <div class="produk-info">
+        <h3>${produk.name}</h3>
+        <p>Rp ${hargaFormat}</p>
+        <a href="${linkWA}" target="_blank" rel="noopener">Beli Lewat WhatsApp</a>
+      </div>
+    `;
 
-      const card = document.createElement('div');
-      card.classList.add('produk-card');
-
-      card.innerHTML = `
-        <img src="${produk.image_url}" alt="${produk.name}" />
-        <div class="produk-info">
-          <h3>${produk.name}</h3>
-          <p>Rp ${hargaFormat}</p>
-          <a href="${linkWA}" target="_blank" rel="noopener">Beli Lewat WhatsApp</a>
-        </div>
-      `;
-      produkContainer.appendChild(card);
-    });
+    return card;
   }
 
-  fetch("https://rifkira.psl17.my.id/api/products")
+  // Fetch produk populer
+  fetch("https://fatimaazhr.psl17.my.id/api/products/popular/all")
     .then(res => res.json())
     .then(data => {
-      produkList = data.data || [];
-      renderProduk();
+      if(data.data && data.data.length > 0){
+        data.data.forEach(produk => {
+          produkPopulerContainer.appendChild(buatCardProduk(produk));
+        });
+      } else {
+        produkPopulerContainer.innerHTML = "<p>Tidak ada produk populer.</p>";
+      }
     })
     .catch(err => {
-      produkContainer.innerHTML = '<p style="color:#f66;">Gagal memuat produk. Coba lagi nanti.</p>';
-      console.error("Error fetch produk:", err);
+      produkPopulerContainer.innerHTML = "<p style='color:#f66;'>Gagal memuat produk populer.</p>";
+      console.error(err);
     });
 
-  searchInput.addEventListener('input', () => {
-    renderProduk(searchInput.value);
-  });
+  // Fetch semua produk biasa
+  fetch("https://fatimaazhr.psl17.my.id/api/products")
+    .then(res => res.json())
+    .then(data => {
+      if(data.data && data.data.length > 0){
+        data.data.forEach(produk => {
+          produkSemuaContainer.appendChild(buatCardProduk(produk));
+        });
+      } else {
+        produkSemuaContainer.innerHTML = "<p>Tidak ada produk.</p>";
+      }
+    })
+    .catch(err => {
+      produkSemuaContainer.innerHTML = "<p style='color:#f66;'>Gagal memuat produk.</p>";
+      console.error(err);
+    });
 });
