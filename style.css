@@ -1,4 +1,3 @@
-/* Reset & font */
 * {
   box-sizing: border-box;
   margin: 0;
@@ -20,11 +19,20 @@ header {
   margin-bottom: 40px;
 }
 
-#produk-container {
+section {
+  margin-bottom: 40px;
+}
+
+h2 {
+  margin-bottom: 20px;
+  border-bottom: 2px solid #fff;
+  padding-bottom: 5px;
+}
+
+.produk-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit,minmax(280px,1fr));
   gap: 24px;
-  flex-grow: 1;
 }
 
 .produk-card {
@@ -86,7 +94,7 @@ header {
 
 footer {
   text-align: center;
-  margin-top: 40px;
+  margin-top: auto;
   font-size: 14px;
   color: #bbb;
 }
