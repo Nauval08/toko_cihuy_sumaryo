@@ -1,37 +1,43 @@
-document.addEventListener("DOMContentLoaded", () => {
-  const container = document.getElementById("produk-container");
+document.addEventListener('DOMContentLoaded', () => {
+  const produkContainer = document.getElementById('produk-container');
 
-  fetch("https://rifkira.psl17.my.id/api/produk")
-    .then(res => res.json())
+  // Ganti ini dengan nomor WA penjual (pakai format internasional tanpa +)
+  const nomorWA = "6281234567890";
+
+  fetch("https://rifkira.psl17.my.id/api/products")
+    .then(response => response.json())
     .then(data => {
+      if (!data.data || data.data.length === 0) {
+        produkContainer.innerHTML = "<p>Produk tidak tersedia.</p>";
+        return;
+      }
+
       data.data.forEach(produk => {
-        const card = document.createElement("div");
-        card.className = "produk-card";
+        const hargaFormat = Number(produk.price).toLocaleString('id-ID');
 
-        // Format harga
-        const hargaFormat = Number(produk.harga).toLocaleString("id-ID");
+        // Buat pesan WA otomatis
+        const pesanWA = `Halo kak, saya mau beli produk *${produk.name}* dengan harga Rp ${hargaFormat}.`;
 
-        // Nomor WA Sumaryo (ganti sesuai kebutuhan)
-        const noWA = "6281234567890";
+        const linkWA = `https://wa.me/${nomorWA}?text=${encodeURIComponent(pesanWA)}`;
 
-        // Format pesan WhatsApp
-        const pesan = `Halo kak, saya mau beli produk *${produk.nama}* dengan harga Rp ${hargaFormat}`;
-        const linkWA = `https://wa.me/${noWA}?text=${encodeURIComponent(pesan)}`;
+        // Buat kartu produk
+        const card = document.createElement('div');
+        card.classList.add('produk-card');
 
         card.innerHTML = `
-          <img src="${produk.foto}" alt="${produk.nama}" />
-          <div class="info">
-            <h3>${produk.nama}</h3>
+          <img src="${produk.image_url}" alt="${produk.name}" />
+          <div class="produk-info">
+            <h3>${produk.name}</h3>
             <p>Rp ${hargaFormat}</p>
-            <a href="${linkWA}" target="_blank">Beli Sekarang</a>
+            <a href="${linkWA}" target="_blank" rel="noopener">Beli Lewat WhatsApp</a>
           </div>
         `;
 
-        container.appendChild(card);
+        produkContainer.appendChild(card);
       });
     })
-    .catch(error => {
-      container.innerHTML = `<p style="color: red;">Gagal memuat produk.</p>`;
-      console.error("Error:", error);
+    .catch(err => {
+      produkContainer.innerHTML = '<p style="color: #f66;">Gagal memuat produk. Coba lagi nanti.</p>';
+      console.error("Error fetch produk:", err);
     });
 });
