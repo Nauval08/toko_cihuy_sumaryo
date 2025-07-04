@@ -111,7 +111,7 @@ function updateCartUI() {
   waText += `%0ATotal belanja: ${formatRupiah(total)}%0AGaskeun, kirim ke alamat biasa ya 😎`;
 
   document.getElementById("checkoutBtn").onclick = () => {
-    window.open(`https://wa.me/6285891633542?text=${waText}`, "_blank");
+    window.open(`https://wa.me/6285810475301?text=${waText}`, "_blank");
     cart = [];
     saveCart();
     updateCartUI();
