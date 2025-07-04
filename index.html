@@ -2,33 +2,31 @@
 <html lang="id">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Cihuy Sumaryo – Skincare </title>
-  <link rel="stylesheet" href="style.css" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cihuy Sumaryo - Skincare </title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-
-  <!-- NAVIGATION HEADER -->
   <header class="main-header">
-    <div class="nav-container">
-      <h1 class="logo"> CIHUY SUMARYO</h1>
-      <nav class="main-nav">
-        <ul class="nav-list">
+    <div class="container-header">
+      <div class="logo">
+        <h1>🧴 Cihuy Sumaryo</h1>
+        <p>Skincare ✨</p>
+      </div>
+      <nav class="nav">
+        <ul>
           <li><a href="#categoryFilter">Kategori</a></li>
           <li><a href="#products">Produk</a></li>
-          <li><a href="#cartItems">Keranjang</a></li>
-          <li><a href="https://wa.me/6285810475301" target="_blank">Kontak WA</a></li>
+          <li><a href="#cart">Keranjang</a></li>
+          <li><a href="https://wa.me/6285810475301" target="_blank">Kontak</a></li>
         </ul>
       </nav>
     </div>
-    <p class="tagline">Toko skincare nu nyunda, glowing pisan 💅</p>
   </header>
 
-  <!-- MAIN CONTENT -->
   <main class="container">
-    <!-- SIDEBAR: KATEGORI -->
     <aside class="sidebar">
-      <h3>Kategori</h3>
+      <h2 id="categoryFilterTitle">Kategori</h2>
       <ul id="categoryFilter">
         <li data-category="All" class="active">Sadayana</li>
         <li data-category="Facial Wash">Cuci Beungeut</li>
@@ -39,26 +37,26 @@
       </ul>
     </aside>
 
-    <!-- PRODUK -->
     <section class="products" id="products">
-      <!-- Produk dimuat dari script.js -->
+      <!-- Produk dimuat lewat script.js -->
     </section>
   </main>
 
-  <!-- KERANJANG FLOATING -->
-  <div class="floating-cart">
-    <h4>🛒 Keranjang</h4>
-    <div id="cartItems">Keranjang kosong euy </div>
-    <button id="checkoutBtn">Checkout via WA</button>
-  </div>
+  <section class="cart-section" id="cart">
+    <div class="cart-container">
+      <h3>🛍️ Keranjang Belanja</h3>
+      <div id="cartItems">Keranjang kosong euy </div>
+      <button id="checkoutBtn">Checkout via WhatsApp</button>
+    </div>
+  </section>
 
-  <!-- FOOTER -->
-  <footer>
-    <p>© 2025 Cihuy Sumaryo. Skincare </p>
-    <small>Kontak via WhatsApp: <a href="https://wa.me/6285810475301" target="_blank">+62 858-1047-5301</a></small>
+  <footer class="main-footer">
+    <div class="footer-content">
+      <p>© 2025 Cihuy Sumaryo </p>
+      <p>Follow di <a href="https://wa.me/6285810475301" target="_blank">WhatsApp</a></p>
+    </div>
   </footer>
 
-  <!-- SCRIPT -->
   <script src="script.js"></script>
 </body>
 </html>
