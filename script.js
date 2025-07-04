@@ -123,7 +123,7 @@ function buyNow(productId) {
   if (!product) return;
 
   const waText = `Bang Cihuy! Gue mau beli ini langsung:%0A- ${product.nama_produk} x1 (Harga: ${formatRupiah(product.harga)})`;
-  const waLink = `https://wa.me/6285891633542?text=${waText}`;
+  const waLink = `https://wa.me/6285810475301?text=${waText}`;
   window.open(waLink, "_blank");
 }
 
