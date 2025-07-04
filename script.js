@@ -13,12 +13,10 @@ async function fetchProducts() {
   try {
     const res = await fetch(apiURL);
     const data = await res.json();
-    // console.log("Data produk dari API:", data);
     allProducts = data;
     renderProducts(data);
   } catch (err) {
-    // console.error("Gagal fetch produk:", err);
-    document.getElementById("products").innerHTML = "<p class='text-danger'>Gagal memuat produk.</p>";
+    document.getElementById("products").innerHTML = "<p class='text-danger'>Waduh... Gagal muat produk 😢 Coba refresh dulu deh.</p>";
   }
 }
 
@@ -34,12 +32,12 @@ function renderProducts(products) {
           <div class="card-body d-flex flex-column justify-content-between">
             <div>
               <h5 class="card-title">${product.nama_produk}</h5>
-              <p class="card-text fw-bold text-pink">Rp ${product.harga}</p>
+              <p class="card-text fw-bold text-primary">Rp ${formatRupiah(product.harga)}</p>
             </div><br>
             <div class="d-flex gap-2">
-            <button class="btn btn-outline-pink w-100" onclick="buyNow(${product.id})">Beli</button>
-            <button class="btn btn-pink w-100" onclick="addToCart(${product.id})">+ Keranjang</button>
-           </div>
+              <button class="btn btn-outline-primary w-100" onclick="buyNow(${product.id})">Langsung Gas 💥</button>
+              <button class="btn btn-primary w-100" onclick="addToCart(${product.id})">Masukin Dulu 🛒</button>
+            </div>
           </div>
         </div>
       </div>
@@ -50,21 +48,20 @@ function renderProducts(products) {
   container.innerHTML = html;
 }
 
-
 document.getElementById("categoryFilter").addEventListener("click", e => {
   if (e.target.tagName === "BUTTON") {
     document.querySelectorAll("#categoryFilter .btn").forEach(btn => btn.classList.remove("active"));
     e.target.classList.add("active");
     const category = e.target.dataset.category;
-    console.log("Filter kategori:", category);
-    const filtered = category === "All" ? allProducts : allProducts.filter(p => p.kategori === category);
+    const filtered = category === "All" || category === "Semua Aja"
+      ? allProducts
+      : allProducts.filter(p => p.kategori === category);
     renderProducts(filtered);
   }
 });
 
 function addToCart(productId) {
   const product = allProducts.find(p => p.id === productId);
-  console.log("Tambah ke keranjang:", product);
   const existing = cart.find(item => item.id === productId);
   if (existing) {
     existing.qty += 1;
@@ -84,7 +81,7 @@ function updateCartUI() {
 
   const container = document.getElementById("cartItems");
   if (cart.length === 0) {
-    container.innerHTML = "<p>Keranjang masih kosong.</p>";
+    container.innerHTML = "<p>Belum ada isinya, gengs. Jangan cuma liatin doang 😆</p>";
     document.getElementById("checkoutBtn").href = "#";
     return;
   }
@@ -94,7 +91,7 @@ function updateCartUI() {
     container.innerHTML += `
       <div class="d-flex justify-content-between mb-2">
         <span>${item.nama_produk} (x${item.qty})</span>
-        <span>Rp ${item.harga * item.qty}</span>
+        <span>${formatRupiah(item.harga * item.qty)}</span>
       </div>`;
   });
 
@@ -102,16 +99,16 @@ function updateCartUI() {
   container.innerHTML += `
     <hr>
     <div class="d-flex justify-content-between fw-bold">
-      <span>Total:</span>
-      <span>Rp ${total}</span>
+      <span>Total Semua:</span>
+      <span>${formatRupiah(total)}</span>
     </div>
   `;
 
-  let waText = "Halo, saya ingin membeli produk berikut:%0A";
+  let waText = "Halo Cihuy Sumaryo 👋, ane mau checkout nih:%0A";
   cart.forEach(item => {
-    waText += `- ${item.nama_produk} x${item.qty} (Rp ${item.harga * item.qty})%0A`;
+    waText += `- ${item.nama_produk} x${item.qty} (Total: ${formatRupiah(item.harga * item.qty)})%0A`;
   });
-  waText += `%0ATotal: Rp ${total}`;
+  waText += `%0ATotal belanja: ${formatRupiah(total)}%0AGaskeun, kirim ke alamat biasa ya 😎`;
 
   document.getElementById("checkoutBtn").onclick = () => {
     window.open(`https://wa.me/6285891633542?text=${waText}`, "_blank");
@@ -125,7 +122,7 @@ function buyNow(productId) {
   const product = allProducts.find(p => p.id === productId);
   if (!product) return;
 
-  const waText = `Halo, saya ingin membeli:%0A- ${product.nama_produk} x1 (Rp ${formatRupiah(product.harga)})`;
+  const waText = `Bang Cihuy! Gue mau beli ini langsung:%0A- ${product.nama_produk} x1 (Harga: ${formatRupiah(product.harga)})`;
   const waLink = `https://wa.me/6285891633542?text=${waText}`;
   window.open(waLink, "_blank");
 }
