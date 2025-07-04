@@ -3,21 +3,26 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Cihuy Sumaryo – Skincare</title>
+  <title>Cihuy Sumaryo – Skincare </title>
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
 
   <!-- HEADER -->
-  <header>
-    <h1> CIHUY SUMARYO</h1>
-    <p>Toko skincare nu nyunda, glowing pisan 💅</p>
+  <header class="main-header">
+    <div class="header-top">
+      <h1>CIHUY SUMARYO</h1>
+      <div class="cart-box-header">
+        <button id="checkoutBtn">Checkout via WA</button>
+        <div id="cartItems">Keranjang kosong euy 😅</div>
+      </div>
+    </div>
+    <p class="tagline">Toko skincare nu nyunda, glowing pisan 💅</p>
   </header>
 
   <!-- MAIN CONTENT -->
   <main class="container">
-
-    <!-- SIDEBAR: KATEGORI + KERANJANG -->
+    <!-- SIDEBAR: KATEGORI -->
     <aside class="sidebar">
       <h3>Kategori</h3>
       <ul id="categoryFilter">
@@ -28,24 +33,18 @@
         <li data-category="Serum">Serum</li>
         <li data-category="Sunscreen">Anti Panas</li>
       </ul>
-
-      <div class="cart-box">
-        <h4>🛒 Keranjang</h4>
-        <div id="cartItems">Keranjang kosong euy </div>
-        <button id="checkoutBtn">Checkout via WA</button>
-      </div>
     </aside>
 
     <!-- PRODUK -->
     <section class="products" id="products">
       <!-- Produk dimuat dari script.js -->
     </section>
-
   </main>
 
   <!-- FOOTER -->
   <footer>
     <p>© 2025 Cihuy Sumaryo. Skincare </p>
+    <small>Kontak via WhatsApp: <a href="https://wa.me/6285810475301" target="_blank">+62 858-1047-5301</a></small>
   </footer>
 
   <!-- SCRIPT -->
