@@ -1,3 +1,8 @@
+// ✅ WA: 6285810475301
+// ✅ Cart tampil di <div id="cartItems">
+// ✅ Produk tampil di <section id="products">
+// ✅ Kategori di <ul id="categoryFilter">
+
 const apiURL = 'https://crud-api-production-1baf.up.railway.app/api/products';
 let allProducts = [];
 let cart = JSON.parse(localStorage.getItem("cart")) || [];
@@ -16,46 +21,37 @@ async function fetchProducts() {
     allProducts = data;
     renderProducts(data);
   } catch (err) {
-    document.getElementById("products").innerHTML = "<p class='text-danger'>Aduh euy... Gagal nyambung ka server, cobian deui nya 😢</p>";
+    document.getElementById("products").innerHTML = "<p class='text-danger'>Aduh euy... Gagal nyambung ka server 😢</p>";
   }
 }
 
 function renderProducts(products) {
   const container = document.getElementById('products');
-  let html = '<div class="row g-4">';
+  let html = '';
 
   products.forEach(product => {
     html += `
-      <div class="col-md-4">
-        <div class="card h-100 shadow-lg border border-warning-subtle">
-          <img src="${product.gambar}" class="card-img-top" alt="${product.nama_produk}" style="height:250px; object-fit:cover;">
-          <div class="card-body d-flex flex-column justify-content-between">
-            <div>
-              <h5 class="card-title fw-semibold text-dark">${product.nama_produk}</h5>
-              <p class="card-text fw-bold text-warning">Harga: ${formatRupiah(product.harga)}</p>
-            </div><br>
-            <div class="d-flex gap-2">
-              <button class="btn btn-outline-warning w-100 fw-bold" onclick="buyNow(${product.id})">Beli Geura 🛍️</button>
-              <button class="btn btn-warning w-100 fw-bold text-white" onclick="addToCart(${product.id})">Sok Tambahkeun 🧺</button>
-            </div>
-          </div>
+      <div class="card">
+        <img src="${product.gambar}" alt="${product.nama_produk}">
+        <h4>${product.nama_produk}</h4>
+        <p>${formatRupiah(product.harga)}</p>
+        <div class="btns">
+          <button class="buy" onclick="buyNow(${product.id})">Beli Geura 🛍️</button>
+          <button class="cart" onclick="addToCart(${product.id})">+ Keranjang</button>
         </div>
       </div>
     `;
   });
 
-  html += '</div>';
   container.innerHTML = html;
 }
 
 document.getElementById("categoryFilter").addEventListener("click", e => {
-  if (e.target.tagName === "BUTTON") {
-    document.querySelectorAll("#categoryFilter .btn").forEach(btn => btn.classList.remove("active"));
+  if (e.target.tagName === "LI") {
+    document.querySelectorAll("#categoryFilter li").forEach(li => li.classList.remove("active"));
     e.target.classList.add("active");
     const category = e.target.dataset.category;
-    const filtered = category === "All" || category === "Semua Aja"
-      ? allProducts
-      : allProducts.filter(p => p.kategori === category);
+    const filtered = category === "All" ? allProducts : allProducts.filter(p => p.kategori === category);
     renderProducts(filtered);
   }
 });
@@ -77,38 +73,30 @@ function saveCart() {
 }
 
 function updateCartUI() {
-  document.getElementById("cartCount").textContent = cart.length;
-
   const container = document.getElementById("cartItems");
   if (cart.length === 0) {
-    container.innerHTML = "<p>Keranjang masih kosong, atuh euy 😅</p>";
-    document.getElementById("checkoutBtn").href = "#";
+    container.innerHTML = "<p>Keranjang kosong euy 😅</p>";
+    document.getElementById("checkoutBtn").onclick = null;
     return;
   }
 
   container.innerHTML = "";
   cart.forEach(item => {
     container.innerHTML += `
-      <div class="d-flex justify-content-between mb-2">
+      <div class="d-flex justify-content-between mb-1">
         <span>${item.nama_produk} (x${item.qty})</span>
         <span>${formatRupiah(item.harga * item.qty)}</span>
       </div>`;
   });
 
   const total = cart.reduce((sum, item) => sum + item.harga * item.qty, 0);
-  container.innerHTML += `
-    <hr>
-    <div class="d-flex justify-content-between fw-bold">
-      <span>Totalna:</span>
-      <span>${formatRupiah(total)}</span>
-    </div>
-  `;
+  container.innerHTML += `<hr><strong>Total: ${formatRupiah(total)}</strong>`;
 
-  let waText = "Mang Cihuy, abdi bade meser ieu barang:%0A";
+  let waText = "Mang Cihuy, abdi bade meser:%0A";
   cart.forEach(item => {
     waText += `- ${item.nama_produk} x${item.qty} (${formatRupiah(item.harga * item.qty)})%0A`;
   });
-  waText += `%0ATotal: ${formatRupiah(total)}%0AKirim ka bumi atuh, sok ah 😁`;
+  waText += `%0ATotal: ${formatRupiah(total)}%0AKirim ka bumi atuh 😁`;
 
   document.getElementById("checkoutBtn").onclick = () => {
     window.open(`https://wa.me/6285810475301?text=${waText}`, "_blank");
@@ -122,7 +110,7 @@ function buyNow(productId) {
   const product = allProducts.find(p => p.id === productId);
   if (!product) return;
 
-  const waText = `Mang Cihuy! Abdi hoyong meser langsung:%0A- ${product.nama_produk} (Harga: ${formatRupiah(product.harga)})`;
+  const waText = `Mang Cihuy! Abdi hoyong meser langsung:%0A- ${product.nama_produk} (${formatRupiah(product.harga)})`;
   const waLink = `https://wa.me/6285810475301?text=${waText}`;
   window.open(waLink, "_blank");
 }
