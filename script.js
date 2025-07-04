@@ -1,8 +1,4 @@
-// ✅ WA: 6285810475301
-// ✅ Sidebar Kategori <ul><li>
-// ✅ Produk tampil di <section id="products">
-// ✅ Keranjang tampil di <div id="cartItems">
-
+/* ===== script.js ===== */
 const apiURL = 'https://crud-api-production-1baf.up.railway.app/api/products';
 let allProducts = [];
 let cart = JSON.parse(localStorage.getItem("cart")) || [];
@@ -21,10 +17,7 @@ async function fetchProducts() {
     allProducts = Array.isArray(data) ? data : [];
     renderProducts(allProducts);
   } catch (err) {
-    document.getElementById("products").innerHTML = `
-      <p style="color: red; font-weight:bold;">
-        Gagal nyambung ka server 😢 Mangga cobian deui engke.
-      </p>`;
+    document.getElementById("products").innerHTML = "<p style='color: red; font-weight:bold;'>Gagal nyambung ka server 😢 Mangga cobian deui engke.</p>";
   }
 }
 
@@ -54,10 +47,8 @@ function renderProducts(products) {
   container.innerHTML = html;
 }
 
-// Kategori filter
 document.getElementById("categoryFilter").addEventListener("click", e => {
   if (e.target.tagName === "LI") {
-    // aktifkan tombol yang diklik
     document.querySelectorAll("#categoryFilter li").forEach(li => li.classList.remove("active"));
     e.target.classList.add("active");
 
@@ -132,6 +123,5 @@ function buyNow(productId) {
   window.open(waLink, "_blank");
 }
 
-// Load pertama
 fetchProducts();
 updateCartUI();
