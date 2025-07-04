@@ -1,27 +1,23 @@
-body {
-  background-color: #ffeef5;
-  font-family: 'Segoe UI', sans-serif;
+.text-primary {
+  color: #0050b3 !important;
 }
 
-.text-pink {
-  color: #e26ea6;
+.btn-outline-primary {
+  color: #0050b3;
+  border-color: #0050b3;
 }
-.bg-pink {
-  background-color: #ffcbe6;
-}
-.btn-pink {
-  background-color: #ffb6d9;
+
+.btn-outline-primary:hover {
+  background-color: #0050b3;
   color: white;
+}
+
+.btn-primary {
+  background-color: #0050b3;
   border: none;
-}
-.btn-pink:hover {
-  background-color: #ff97cb;
-}
-.btn-outline-pink {
-  color: #e26ea6;
-  border-color: #e26ea6;
-}
-.btn-outline-pink:hover {
-  background-color: #e26ea6;
   color: white;
+}
+
+.btn-primary:hover {
+  background-color: #003d99;
 }
