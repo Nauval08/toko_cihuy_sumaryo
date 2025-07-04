@@ -8,19 +8,20 @@
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm sticky-top">
+
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark shadow sticky-top">
     <div class="container">
-      <a class="navbar-brand fw-bold text-primary" href="#">🧴 Cihuy Sumaryo</a>
+      <a class="navbar-brand fw-bold text-gold" href="#">💼 Cihuy Sumaryo</a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
         <span class="navbar-toggler-icon"></span>
       </button>
       <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav ms-auto align-items-center">
           <li class="nav-item">
-            <a class="nav-link" href="#products">Produk</a>
+            <a class="nav-link text-light" href="#products">Produk</a>
           </li>
           <li class="nav-item">
-            <button class="btn btn-outline-primary position-relative" data-bs-toggle="modal" data-bs-target="#cartModal">
+            <button class="btn btn-outline-gold position-relative" data-bs-toggle="modal" data-bs-target="#cartModal">
               🛒
               <span id="cartCount" class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
                 0
@@ -32,22 +33,22 @@
     </div>
   </nav>
 
-  <section class="py-5 bg-light text-center">
+  <section class="py-5 text-center hero-section">
     <div class="container">
-      <h1 class="display-5 fw-bold text-primary">Skincare Buat Cowok Ganteng & Gak Ngerasa Ganteng 😅</h1>
-      <p class="lead text-secondary">Facial wash? Serum? Tenang bro, semua lengkap! Biar muka lo gak kalah sama oppa-oppa Korea.</p>
+      <h1 class="display-5 fw-bold text-gold">Skincare Buat Akang Nu Hayang Glowing ✨</h1>
+      <p class="lead text-white">Ti facial wash nepi ka serum, sagalana aya. Tampil kacak, tapi tetep Sunda pisan 😎</p>
     </div>
   </section>
 
-  <section class="container py-3 text-center">
-    <h2 class="mb-3">Pilih Kategori, Boskuh 💪</h2>
+  <section class="container py-4 text-center">
+    <h2 class="mb-3 fw-semibold">Pilih Kategori, Akang</h2>
     <div id="categoryFilter" class="btn-group flex-wrap">
-      <button class="btn btn-outline-primary active" data-category="All">Semua Aja</button>
-      <button class="btn btn-outline-primary" data-category="Facial Wash">Cuci Muka</button>
-      <button class="btn btn-outline-primary" data-category="Toner">Toner (Bukan Toner Printer)</button>
-      <button class="btn btn-outline-primary" data-category="Moisturizer">Pelembab Biar Gak Kering</button>
-      <button class="btn btn-outline-primary" data-category="Serum">Serum Anti Jomblo</button>
-      <button class="btn btn-outline-primary" data-category="Sunscreen">Anti Silau Matahari</button>
+      <button class="btn btn-outline-gold active" data-category="All">Sadayana</button>
+      <button class="btn btn-outline-gold" data-category="Facial Wash">Cuci Beungeut</button>
+      <button class="btn btn-outline-gold" data-category="Toner">Toner</button>
+      <button class="btn btn-outline-gold" data-category="Moisturizer">Pelembab</button>
+      <button class="btn btn-outline-gold" data-category="Serum">Serum</button>
+      <button class="btn btn-outline-gold" data-category="Sunscreen">Anti Panas</button>
     </div>
   </section>
 
@@ -57,22 +58,22 @@
     <div class="modal-dialog modal-dialog-scrollable">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title">Isi Keranjangmu, Gengs</h5>
+          <h5 class="modal-title">Keranjang Belanja Akang</h5>
           <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
         </div>
         <div class="modal-body" id="cartItems">
-          <p>Masih kosong, isi dulu dong masa iya naksir doang tapi gak beli 😆</p>
+          <p>Keranjang kosong, can belanja 😅</p>
         </div>
         <div class="modal-footer">
-          <a href="#" id="checkoutBtn" class="btn btn-primary w-100" target="_blank">Checkout via WhatsApp 🟢</a>
+          <a href="#" id="checkoutBtn" class="btn btn-gold w-100 fw-bold text-white">Checkout via WhatsApp</a>
         </div>
       </div>
     </div>
   </div>
 
-  <footer class="bg-white text-center py-4 mt-5 shadow-sm border-top">
+  <footer class="bg-dark text-center py-4 mt-5 shadow-sm border-top border-warning">
     <div class="container">
-      <p class="mb-0 text-secondary">© 2025 Cihuy Sumaryo. Skincare buat cowok yang pengen glowing tapi tetap laki! 🧼✨</p>
+      <p class="mb-0 text-light">© 2025 <span class="text-gold">Cihuy Sumaryo</span> — Toko Skincare Sunda Elegan 💅</p>
     </div>
   </footer>
 
