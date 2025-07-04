@@ -1,7 +1,13 @@
-/* ===== script.js ===== */
 const apiURL = 'https://crud-api-production-1baf.up.railway.app/api/products';
+const storeName = "Cihuy Sumaryo";
 let allProducts = [];
-let cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+let cart = [];
+try {
+  cart = JSON.parse(localStorage.getItem("cart")) || [];
+} catch {
+  cart = [];
+}
 
 function formatRupiah(angka) {
   return new Intl.NumberFormat('id-ID', {
@@ -14,21 +20,16 @@ async function fetchProducts() {
   try {
     const res = await fetch(apiURL);
     const data = await res.json();
-    allProducts = Array.isArray(data) ? data : [];
-    renderProducts(allProducts);
+    allProducts = data;
+    renderProducts(data);
   } catch (err) {
-    document.getElementById("products").innerHTML = "<p style='color: red; font-weight:bold;'>Gagal nyambung ka server 😢 Mangga cobian deui engke.</p>";
+    document.getElementById("products").innerHTML = "<p class='text-danger'>Aduh... Gagal nyambung ka server 😢</p>";
   }
 }
 
 function renderProducts(products) {
   const container = document.getElementById('products');
-  if (products.length === 0) {
-    container.innerHTML = "<p>Hese teangan produkna 😕</p>";
-    return;
-  }
-
-  let html = '';
+  let html = "";
 
   products.forEach(product => {
     html += `
@@ -40,37 +41,34 @@ function renderProducts(products) {
           <button class="buy" onclick="buyNow(${product.id})">Beli Geura 🛍️</button>
           <button class="cart" onclick="addToCart(${product.id})">+ Keranjang</button>
         </div>
-      </div>
-    `;
+      </div>`;
   });
 
   container.innerHTML = html;
 }
 
-document.getElementById("categoryFilter").addEventListener("click", e => {
-  if (e.target.tagName === "LI") {
-    document.querySelectorAll("#categoryFilter li").forEach(li => li.classList.remove("active"));
-    e.target.classList.add("active");
-
-    const category = e.target.dataset.category;
-    const filtered = category === "All"
-      ? allProducts
-      : allProducts.filter(p => (p.kategori || '').toLowerCase() === category.toLowerCase());
-
-    renderProducts(filtered);
-  }
-});
+const categoryFilter = document.getElementById("categoryFilter");
+if (categoryFilter) {
+  categoryFilter.addEventListener("click", e => {
+    if (e.target.tagName === "LI") {
+      document.querySelectorAll("#categoryFilter li").forEach(li => li.classList.remove("active"));
+      e.target.classList.add("active");
+      const category = e.target.dataset.category;
+      const filtered = category === "All" ? allProducts : allProducts.filter(p => p.kategori === category);
+      renderProducts(filtered);
+    }
+  });
+}
 
 function addToCart(productId) {
   const product = allProducts.find(p => p.id === productId);
+  if (!product) return;
   const existing = cart.find(item => item.id === productId);
-
   if (existing) {
     existing.qty += 1;
   } else {
     cart.push({ ...product, qty: 1 });
   }
-
   updateCartUI();
   saveCart();
 }
@@ -81,6 +79,7 @@ function saveCart() {
 
 function updateCartUI() {
   const container = document.getElementById("cartItems");
+  if (!container) return;
 
   if (cart.length === 0) {
     container.innerHTML = "<p>Keranjang kosong euy 😅</p>";
@@ -100,7 +99,7 @@ function updateCartUI() {
   const total = cart.reduce((sum, item) => sum + item.harga * item.qty, 0);
   container.innerHTML += `<hr><strong>Total: ${formatRupiah(total)}</strong>`;
 
-  let waText = "Mang Cihuy, abdi bade meser:%0A";
+  let waText = `${storeName} - Mang Cihuy, abdi bade meser:%0A`;
   cart.forEach(item => {
     waText += `- ${item.nama_produk} x${item.qty} (${formatRupiah(item.harga * item.qty)})%0A`;
   });
