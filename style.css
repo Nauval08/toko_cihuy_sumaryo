@@ -1,92 +1,120 @@
+/* Umum */
 body {
   margin: 0;
   font-family: 'Segoe UI', sans-serif;
-  background-color: #1c1c1c;
-  color: #f0f0f0;
+  background-color: #fafafa;
+  color: #333;
 }
 
+/* Header */
 header {
+  background: linear-gradient(to right, #ffd6e0, #fff3f7);
   text-align: center;
   padding: 30px 20px;
-  background-color: #111;
-  color: #ffc107;
+  border-bottom: 3px solid #ffc0cb;
 }
 
+header h1 {
+  margin: 0;
+  font-size: 2.5rem;
+  color: #d63384;
+}
+
+header p {
+  margin: 10px 0 0;
+  font-size: 1rem;
+  color: #555;
+}
+
+/* Layout */
 .container {
   display: flex;
   flex-wrap: wrap;
-  padding: 20px;
   gap: 20px;
+  padding: 30px;
 }
 
+/* Sidebar kategori */
 .sidebar {
   flex: 1 1 200px;
   max-width: 250px;
-  background-color: #2a2a2a;
-  padding: 20px;
+  background: #fff;
+  border: 2px dashed #ffc0cb;
   border-radius: 10px;
+  padding: 20px;
 }
 
 .sidebar h3 {
   margin-bottom: 10px;
-  color: #ffc107;
+  color: #d63384;
 }
 
 .sidebar ul {
   list-style: none;
   padding: 0;
+  margin: 0;
 }
 
 .sidebar ul li {
-  padding: 8px 12px;
+  padding: 10px 15px;
   margin-bottom: 8px;
   cursor: pointer;
-  background-color: #333;
+  background-color: #ffe4ec;
   border-radius: 6px;
+  transition: background 0.2s;
 }
 
 .sidebar ul li.active,
 .sidebar ul li:hover {
-  background-color: #ffc107;
-  color: #000;
+  background-color: #ffb3c6;
+  font-weight: bold;
+  color: #fff;
 }
 
+/* Keranjang */
 .cart-box {
   margin-top: 30px;
-  padding: 10px;
-  background-color: #3a3a3a;
-  border-radius: 8px;
+  background-color: #fff;
+  border: 1px solid #ffd6e0;
+  border-radius: 10px;
+  padding: 15px;
+}
+
+.cart-box h4 {
+  color: #d63384;
 }
 
 .cart-box button {
   width: 100%;
   padding: 10px;
-  background-color: #ffc107;
-  color: black;
+  background-color: #d63384;
+  color: white;
   border: none;
-  margin-top: 10px;
+  border-radius: 6px;
   font-weight: bold;
   cursor: pointer;
-  border-radius: 6px;
 }
 
+.cart-box button:hover {
+  background-color: #c2185b;
+}
+
+/* Produk */
 .products {
   flex: 3;
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
   gap: 20px;
 }
 
 .card {
-  background-color: #292929;
-  border-radius: 10px;
-  overflow: hidden;
+  background-color: #fff;
+  border-radius: 12px;
   padding: 15px;
+  box-shadow: 0 0 10px rgba(220, 20, 60, 0.05);
+  transition: transform 0.2s;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
-  box-shadow: 0 0 10px rgba(255, 193, 7, 0.1);
-  transition: transform 0.2s;
 }
 
 .card:hover {
@@ -97,21 +125,25 @@ header {
   width: 100%;
   height: 200px;
   object-fit: cover;
-  border-radius: 6px;
+  border-radius: 8px;
 }
 
 .card h4 {
-  margin: 10px 0 5px;
-  color: #ffc107;
+  margin: 12px 0 5px;
+  color: #d63384;
+  font-size: 1.2rem;
 }
 
 .card p {
-  margin: 0 0 10px;
+  font-weight: bold;
+  margin-bottom: 10px;
+  color: #444;
 }
 
 .card .btns {
   display: flex;
   gap: 10px;
+  margin-top: auto;
 }
 
 .card button {
@@ -121,6 +153,7 @@ header {
   border-radius: 6px;
   font-weight: bold;
   cursor: pointer;
+  font-size: 0.9rem;
 }
 
 .card .buy {
@@ -129,15 +162,16 @@ header {
 }
 
 .card .cart {
-  background-color: transparent;
-  color: #ffc107;
-  border: 1px solid #ffc107;
+  background-color: #d63384;
+  color: #fff;
 }
 
+/* Footer */
 footer {
   text-align: center;
+  background-color: #f8d7da;
+  color: #a33;
   padding: 20px;
-  background-color: #111;
-  color: #999;
+  font-size: 0.9rem;
   margin-top: 40px;
 }
