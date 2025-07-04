@@ -1,56 +1,134 @@
-document.addEventListener('DOMContentLoaded', () => {
-  const produkPopulerContainer = document.getElementById('produk-populer');
-  const produkSemuaContainer = document.getElementById('produk-semua');
+const apiURL = 'https://crud-api-production-1baf.up.railway.app/api/products';
+let allProducts = [];
+let cart = JSON.parse(localStorage.getItem("cart")) || [];
 
-  const nomorWA = "6281234567890"; // Ganti dengan nomor WA kamu
+function formatRupiah(angka) {
+  return new Intl.NumberFormat('id-ID', {
+    style: 'currency',
+    currency: 'IDR'
+  }).format(angka);
+}
 
-  // 🔧 Path gambar diperbarui
-  const baseUrlGambar = "https://fatimaazhr.psl17.my.id/upload/";
+async function fetchProducts() {
+  try {
+    const res = await fetch(apiURL);
+    const data = await res.json();
+    // console.log("Data produk dari API:", data);
+    allProducts = data;
+    renderProducts(data);
+  } catch (err) {
+    // console.error("Gagal fetch produk:", err);
+    document.getElementById("products").innerHTML = "<p class='text-danger'>Gagal memuat produk.</p>";
+  }
+}
 
-  function buatCardProduk(produk) {
-    const hargaFormat = Number(produk.price).toLocaleString('id-ID');
-    const pesanWA = `Halo kak, saya mau beli produk *${produk.name}* dengan harga Rp ${hargaFormat}.`;
-    const linkWA = `https://wa.me/${nomorWA}?text=${encodeURIComponent(pesanWA)}`;
+function renderProducts(products) {
+  const container = document.getElementById('products');
+  let html = '<div class="row g-4">';
 
-    const card = document.createElement('div');
-    card.classList.add('produk-card');
-
-    card.innerHTML = `
-      <img src="${baseUrlGambar + produk.photo}" alt="${produk.name}" />
-      <div class="produk-info">
-        <h3>${produk.name}</h3>
-        <p>Rp ${hargaFormat}</p>
-        <a href="${linkWA}" target="_blank" rel="noopener">Beli Lewat WhatsApp</a>
+  products.forEach(product => {
+    html += `
+      <div class="col-md-4">
+        <div class="card h-100 shadow-sm">
+          <img src="${product.gambar}" class="card-img-top" alt="${product.nama_produk}" style="height:250px; object-fit:cover;">
+          <div class="card-body d-flex flex-column justify-content-between">
+            <div>
+              <h5 class="card-title">${product.nama_produk}</h5>
+              <p class="card-text fw-bold text-pink">Rp ${product.harga}</p>
+            </div><br>
+            <div class="d-flex gap-2">
+            <button class="btn btn-outline-pink w-100" onclick="buyNow(${product.id})">Beli</button>
+            <button class="btn btn-pink w-100" onclick="addToCart(${product.id})">+ Keranjang</button>
+           </div>
+          </div>
+        </div>
       </div>
     `;
+  });
 
-    return card;
+  html += '</div>';
+  container.innerHTML = html;
+}
+
+
+document.getElementById("categoryFilter").addEventListener("click", e => {
+  if (e.target.tagName === "BUTTON") {
+    document.querySelectorAll("#categoryFilter .btn").forEach(btn => btn.classList.remove("active"));
+    e.target.classList.add("active");
+    const category = e.target.dataset.category;
+    console.log("Filter kategori:", category);
+    const filtered = category === "All" ? allProducts : allProducts.filter(p => p.kategori === category);
+    renderProducts(filtered);
+  }
+});
+
+function addToCart(productId) {
+  const product = allProducts.find(p => p.id === productId);
+  console.log("Tambah ke keranjang:", product);
+  const existing = cart.find(item => item.id === productId);
+  if (existing) {
+    existing.qty += 1;
+  } else {
+    cart.push({ ...product, qty: 1 });
+  }
+  updateCartUI();
+  saveCart();
+}
+
+function saveCart() {
+  localStorage.setItem("cart", JSON.stringify(cart));
+}
+
+function updateCartUI() {
+  document.getElementById("cartCount").textContent = cart.length;
+
+  const container = document.getElementById("cartItems");
+  if (cart.length === 0) {
+    container.innerHTML = "<p>Keranjang masih kosong.</p>";
+    document.getElementById("checkoutBtn").href = "#";
+    return;
   }
 
-  fetch("https://fatimaazhr.psl17.my.id/api/products")
-    .then(res => res.json())
-    .then(data => {
-      if (!Array.isArray(data) || data.length === 0) {
-        produkSemuaContainer.innerHTML = "<p>Tidak ada produk.</p>";
-        produkPopulerContainer.innerHTML = "<p>Tidak ada produk populer.</p>";
-        return;
-      }
+  container.innerHTML = "";
+  cart.forEach(item => {
+    container.innerHTML += `
+      <div class="d-flex justify-content-between mb-2">
+        <span>${item.nama_produk} (x${item.qty})</span>
+        <span>Rp ${item.harga * item.qty}</span>
+      </div>`;
+  });
 
-      const populer = data.filter(p => p.is_popular === 1);
-      const biasa = data.filter(p => p.is_popular === 0);
+  const total = cart.reduce((sum, item) => sum + item.harga * item.qty, 0);
+  container.innerHTML += `
+    <hr>
+    <div class="d-flex justify-content-between fw-bold">
+      <span>Total:</span>
+      <span>Rp ${total}</span>
+    </div>
+  `;
 
-      if (populer.length > 0) {
-        populer.forEach(p => produkPopulerContainer.appendChild(buatCardProduk(p)));
-      } else {
-        produkPopulerContainer.innerHTML = "<p>Tidak ada produk populer.</p>";
-      }
+  let waText = "Halo, saya ingin membeli produk berikut:%0A";
+  cart.forEach(item => {
+    waText += `- ${item.nama_produk} x${item.qty} (Rp ${item.harga * item.qty})%0A`;
+  });
+  waText += `%0ATotal: Rp ${total}`;
 
-      if (biasa.length > 0) {
-        biasa.forEach(p => produkSemuaContainer.appendChild(buatCardProduk(p)));
-      } else {
-        produkSemuaContainer.innerHTML = "<p>Tidak ada produk.</p>";
-      }
-    })
-    .catch(err => {
-      produkSemuaContainer.innerHTML = "<p style='color:#f66;'>Gagal memuat produk.</p>";
-      produkPopulerContainer.innerHTML = "<p style='color
+  document.getElementById("checkoutBtn").onclick = () => {
+    window.open(`https://wa.me/6285891633542?text=${waText}`, "_blank");
+    cart = [];
+    saveCart();
+    updateCartUI();
+  };
+}
+
+function buyNow(productId) {
+  const product = allProducts.find(p => p.id === productId);
+  if (!product) return;
+
+  const waText = `Halo, saya ingin membeli:%0A- ${product.nama_produk} x1 (Rp ${formatRupiah(product.harga)})`;
+  const waLink = `https://wa.me/6285891633542?text=${waText}`;
+  window.open(waLink, "_blank");
+}
+
+fetchProducts();
+updateCartUI();
