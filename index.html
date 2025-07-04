@@ -1,16 +1,18 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="UTF-8" />
+  <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Cihuy Sumaryo - Skincare </title>
+  <title>Cihuy Sumaryo</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
+
+  <!-- Header -->
   <header class="main-header">
     <div class="container-header">
       <div class="logo">
-        <h1>🧴 Cihuy Sumaryo</h1>
+        <h1>🧴 Cihuy <span class="bold">Sumaryo</span></h1>
         <p>Skincare ✨</p>
       </div>
       <nav class="nav">
@@ -24,39 +26,42 @@
     </div>
   </header>
 
+  <!-- Konten utama -->
   <main class="container">
     <aside class="sidebar">
-      <h2 id="categoryFilterTitle">Kategori</h2>
+      <h2>Kategori</h2>
       <ul id="categoryFilter">
-        <li data-category="All" class="active">Sadayana</li>
-        <li data-category="Facial Wash">Cuci Beungeut</li>
+        <li class="active" data-category="All">Sadayana</li>
+        <li data-category="Cuci Beungeut">Cuci Beungeut</li>
         <li data-category="Toner">Toner</li>
-        <li data-category="Moisturizer">Pelembab</li>
+        <li data-category="Pelembab">Pelembab</li>
         <li data-category="Serum">Serum</li>
-        <li data-category="Sunscreen">Anti Panas</li>
+        <li data-category="Anti Panas">Anti Panas</li>
       </ul>
     </aside>
 
     <section class="products" id="products">
-      <!-- Produk dimuat lewat script.js -->
+      <!-- Produk akan dimuat lewat JavaScript -->
     </section>
   </main>
 
+  <!-- Keranjang -->
   <section class="cart-section" id="cart">
     <div class="cart-container">
-      <h3>🛍️ Keranjang Belanja</h3>
-      <div id="cartItems">Keranjang kosong euy </div>
+      <h3>🛒 Keranjang</h3>
+      <div id="cartItems">
+        <p>Keranjang kosong euy 😅</p>
+      </div>
       <button id="checkoutBtn">Checkout via WhatsApp</button>
     </div>
   </section>
 
-  <footer class="main-footer">
-    <div class="footer-content">
-      <p>© 2025 Cihuy Sumaryo </p>
-      <p>Follow di <a href="https://wa.me/6285810475301" target="_blank">WhatsApp</a></p>
-    </div>
+  <!-- Footer -->
+  <footer>
+    <p>© 2025 Cihuy Sumaryo. Dibuat dengan 💙 oleh Mang Developer</p>
   </footer>
 
+  <!-- Script -->
   <script src="script.js"></script>
 </body>
 </html>
